@@ -7,7 +7,7 @@ from odoo import api, fields, models
 
 class ResPartner(models.Model):
     _inherit = ["multi.company.abstract", "res.partner"]
-    _name = "res.partner"
+    _name = 'res.partner'
 
     # This is needed because after installation this field becomes
     # unsearchable and unsortable. Which is not explicitly changed in this
@@ -17,6 +17,11 @@ class ResPartner(models.Model):
         store=True,
         index=True,
     )
+    company_ids = fields.Many2many(
+        relation="partner_res_company_assignment_rel",
+        column1="partner_id",
+        column2="res_company_assignment_id",
+    )
 
     @api.model
     def create(self, vals):
@@ -24,7 +29,7 @@ class ResPartner(models.Model):
         removed in the inheritance, and that will activate the inverse method,
         overwriting our company_ids field desired value.
         """
-        vals = self._amend_company_id(vals)
+        self._amend_company_id(vals)
         return super().create(vals)
 
     @api.model
@@ -36,25 +41,25 @@ class ResPartner(models.Model):
         :return: List of field names to be synced.
         """
         fields = super(ResPartner, self)._commercial_fields()
-        fields += ["company_ids"]
+        fields += ['company_ids']
         return fields
 
-    @api.model
+    @api.model_cr_context
     def _amend_company_id(self, vals):
-        if "company_ids" in vals:
-            if not vals["company_ids"]:
-                vals["company_id"] = False
+        if 'company_ids' in vals:
+            if not vals['company_ids']:
+                vals['company_id'] = False
             else:
-                for item in vals["company_ids"]:
+                for item in vals['company_ids']:
                     if item[0] in (1, 4):
-                        vals["company_id"] = item[1]
+                        vals['company_id'] = item[1]
                     elif item[0] in (2, 3, 5):
-                        vals["company_id"] = False
+                        vals['company_id'] = False
                     elif item[0] == 6:
                         if item[2]:
-                            vals["company_id"] = item[2][0]
+                            vals['company_id'] = item[2][0]
                         else:  # pragma: no cover
-                            vals["company_id"] = False
-        elif "company_id" not in vals:
-            vals["company_ids"] = False
+                            vals['company_id'] = False
+        elif 'company_id' not in vals:
+            vals['company_ids'] = False
         return vals

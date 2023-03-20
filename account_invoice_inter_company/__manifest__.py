@@ -5,14 +5,19 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 {
-    "name": "Inter Company Invoices",
-    "summary": "Intercompany invoice rules",
-    "version": "14.0.1.3.2",
-    "category": "Accounting & Finance",
-    "website": "https://github.com/OCA/multi-company",
-    "author": "Odoo SA, Akretion, Odoo Community Association (OCA)",
-    "license": "AGPL-3",
-    "depends": ["account"],
-    "data": ["views/account_move_views.xml", "views/res_config_settings_view.xml"],
-    "installable": True,
+    'name': 'Inter Company Invoices',
+    'summary': 'Intercompany invoice rules',
+    'version': '12.0.2.1.3',
+    'category': 'Accounting & Finance',
+    'website': 'https://github.com/OCA/multi-company',
+    'author': 'Odoo SA, Akretion, Odoo Community Association (OCA)',
+    'license': 'AGPL-3',
+    'depends': [
+        'account',
+    ],
+    'data': [
+        'views/account_invoice_views.xml',
+        'views/res_config_settings_view.xml',
+    ],
+    'installable': True,
 }

@@ -29,9 +29,23 @@ msgid "Config Settings"
 msgstr ""
 
 #. module: purchase_sale_inter_company
+#: model:ir.model.fields,field_description:purchase_sale_inter_company.field_res_company__po_from_so
+#: model:ir.model.fields,field_description:purchase_sale_inter_company.field_res_config_settings__po_from_so
+msgid "Create Purchase Orders when selling to this company"
+msgstr ""
+
+#. module: purchase_sale_inter_company
 #: model:ir.model.fields,field_description:purchase_sale_inter_company.field_res_company__so_from_po
 #: model:ir.model.fields,field_description:purchase_sale_inter_company.field_res_config_settings__so_from_po
 msgid "Create Sale Orders when buying to this company"
+msgstr ""
+
+#. module: purchase_sale_inter_company
+#: model:ir.model.fields,help:purchase_sale_inter_company.field_res_company__po_picking_type_id
+#: model:ir.model.fields,help:purchase_sale_inter_company.field_res_config_settings__po_picking_type_id
+msgid ""
+"Default value to set on Purchase Orders (\"Deliver To\" field) that will be "
+"created based on Sale Orders made to this company."
 msgstr ""
 
 #. module: purchase_sale_inter_company
@@ -49,6 +63,21 @@ msgid ""
 msgstr ""
 
 #. module: purchase_sale_inter_company
+#: code:addons/purchase_sale_inter_company/models/sale_order.py:45
+#, python-format
+msgid "Error. The following lines do not match on the remote order: %s"
+msgstr ""
+
+#. module: purchase_sale_inter_company
+#: model:ir.model.fields,help:purchase_sale_inter_company.field_res_company__po_from_so
+#: model:ir.model.fields,help:purchase_sale_inter_company.field_res_config_settings__po_from_so
+msgid ""
+"Generate a Purchase Order when a Sale Order with this company as customer is "
+"created.\n"
+" The intercompany user must at least be Purchase User."
+msgstr ""
+
+#. module: purchase_sale_inter_company
 #: model:ir.model.fields,help:purchase_sale_inter_company.field_res_company__so_from_po
 #: model:ir.model.fields,help:purchase_sale_inter_company.field_res_config_settings__so_from_po
 msgid ""
@@ -58,19 +87,54 @@ msgid ""
 msgstr ""
 
 #. module: purchase_sale_inter_company
+#: model:ir.model.fields,help:purchase_sale_inter_company.field_res_company__intercompany_overwrite_purchase_price
+msgid ""
+"If not selected intercompany sale order line prices will be compared with "
+"their respective purchase order line prices and an error will be raised if "
+"not equal. If selected, no comparison will be done and SO line price will be "
+"copied to the PO line price."
+msgstr ""
+
+#. module: purchase_sale_inter_company
+#: model:ir.model.fields,help:purchase_sale_inter_company.field_res_config_settings__intercompany_overwrite_purchase_price
+msgid ""
+"If unchecked intercompany sale order line prices will be compared with their "
+"respective purchase order line prices and an error will be raised if not "
+"equal. If selected, no comparison will be done and SO line price will be "
+"copied to the PO line price."
+msgstr ""
+
+#. module: purchase_sale_inter_company
+#: model_terms:ir.ui.view,arch_db:purchase_sale_inter_company.res_config_settings_view_form
+msgid "Intercompany Overwrite Purchase Price"
+msgstr ""
+
+#. module: purchase_sale_inter_company
 #: model:ir.model.fields,field_description:purchase_sale_inter_company.field_stock_picking__intercompany_picking_id
 msgid "Intercompany Picking"
 msgstr ""
 
 #. module: purchase_sale_inter_company
-#: model:ir.model.fields,field_description:purchase_sale_inter_company.field_res_company__intercompany_sale_user_id
-#: model:ir.model.fields,field_description:purchase_sale_inter_company.field_res_config_settings__intercompany_sale_user_id
-msgid "Intercompany Sale User"
+#: model:ir.model.fields,field_description:purchase_sale_inter_company.field_res_company__intercompany_user_id
+#: model:ir.model.fields,field_description:purchase_sale_inter_company.field_res_config_settings__intercompany_user_id
+msgid "Intercompany User"
 msgstr ""
 
 #. module: purchase_sale_inter_company
-#: model:ir.model,name:purchase_sale_inter_company.model_account_move
-msgid "Journal Entries"
+#: model:ir.model,name:purchase_sale_inter_company.model_account_invoice
+msgid "Invoice"
+msgstr "Rechnung"
+
+#. module: purchase_sale_inter_company
+#: code:addons/purchase_sale_inter_company/models/sale_order.py:36
+#, python-format
+msgid "PO line %s with price %s is not equal to SO line %s with price %s \n"
+msgstr ""
+
+#. module: purchase_sale_inter_company
+#: model:ir.model.fields,field_description:purchase_sale_inter_company.field_res_company__po_picking_type_id
+#: model:ir.model.fields,field_description:purchase_sale_inter_company.field_res_config_settings__po_picking_type_id
+msgid "Picking type for Purchase Orders"
 msgstr ""
 
 #. module: purchase_sale_inter_company
@@ -79,8 +143,24 @@ msgid "Purchase Order"
 msgstr ""
 
 #. module: purchase_sale_inter_company
+#: model:ir.model,name:purchase_sale_inter_company.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr ""
+
+#. module: purchase_sale_inter_company
+#: model:ir.model.fields,field_description:purchase_sale_inter_company.field_res_company__purchase_auto_validation
+#: model:ir.model.fields,field_description:purchase_sale_inter_company.field_res_config_settings__purchase_auto_validation
+msgid "Purchase Orders Auto Validation"
+msgstr ""
+
+#. module: purchase_sale_inter_company
 #: model_terms:ir.ui.view,arch_db:purchase_sale_inter_company.res_config_settings_view_form
-msgid "Purchase/Sale"
+msgid "Purchase from sale"
+msgstr ""
+
+#. module: purchase_sale_inter_company
+#: model:ir.model,name:purchase_sale_inter_company.model_sale_order
+msgid "Sale Order"
 msgstr ""
 
 #. module: purchase_sale_inter_company
@@ -92,11 +172,6 @@ msgstr ""
 #. module: purchase_sale_inter_company
 #: model_terms:ir.ui.view,arch_db:purchase_sale_inter_company.res_config_settings_view_form
 msgid "Sale from purchase"
-msgstr ""
-
-#. module: purchase_sale_inter_company
-#: model:ir.model,name:purchase_sale_inter_company.model_sale_order
-msgid "Sales Order"
 msgstr ""
 
 #. module: purchase_sale_inter_company
@@ -115,7 +190,23 @@ msgid "Source Purchase Order Line"
 msgstr ""
 
 #. module: purchase_sale_inter_company
-#: code:addons/purchase_sale_inter_company/models/stock_picking.py:0
+#: model:ir.model.fields,field_description:purchase_sale_inter_company.field_purchase_order__auto_sale_order_id
+msgid "Source Sale Order"
+msgstr ""
+
+#. module: purchase_sale_inter_company
+#: model:ir.model.fields,field_description:purchase_sale_inter_company.field_purchase_order_line__auto_sale_line_id
+msgid "Source Sale Order Line"
+msgstr ""
+
+#. module: purchase_sale_inter_company
+#: model:ir.model.fields,field_description:purchase_sale_inter_company.field_res_company__intercompany_overwrite_purchase_price
+#: model:ir.model.fields,field_description:purchase_sale_inter_company.field_res_config_settings__intercompany_overwrite_purchase_price
+msgid "Synchronise prices on SO confirmation"
+msgstr ""
+
+#. module: purchase_sale_inter_company
+#: code:addons/purchase_sale_inter_company/models/stock_picking.py:39
 #, python-format
 msgid ""
 "There's no corresponding line in PO %s for assigning qty from %s for product "
@@ -123,7 +214,7 @@ msgid ""
 msgstr ""
 
 #. module: purchase_sale_inter_company
-#: code:addons/purchase_sale_inter_company/models/account_move.py:0
+#: code:addons/purchase_sale_inter_company/models/account_invoice.py:45
 #, python-format
 msgid "This vendor bill is related with: {}"
 msgstr ""
@@ -131,13 +222,6 @@ msgstr ""
 #. module: purchase_sale_inter_company
 #: model:ir.model,name:purchase_sale_inter_company.model_stock_picking
 msgid "Transfer"
-msgstr ""
-
-#. module: purchase_sale_inter_company
-#: model:ir.model.fields,help:purchase_sale_inter_company.field_res_config_settings__intercompany_sale_user_id
-msgid ""
-"User used to create the sales order arising from a purchase order in another "
-"company."
 msgstr ""
 
 #. module: purchase_sale_inter_company
@@ -151,6 +235,14 @@ msgid "Warehouse for Sale Orders"
 msgstr ""
 
 #. module: purchase_sale_inter_company
+#: model:ir.model.fields,help:purchase_sale_inter_company.field_res_company__purchase_auto_validation
+#: model:ir.model.fields,help:purchase_sale_inter_company.field_res_config_settings__purchase_auto_validation
+msgid ""
+"When a Purchase Order is created by a multi company rule for this company, "
+"it will automatically validate it."
+msgstr ""
+
+#. module: purchase_sale_inter_company
 #: model:ir.model.fields,help:purchase_sale_inter_company.field_res_company__sale_auto_validation
 #: model:ir.model.fields,help:purchase_sale_inter_company.field_res_config_settings__sale_auto_validation
 msgid ""
@@ -159,24 +251,28 @@ msgid ""
 msgstr ""
 
 #. module: purchase_sale_inter_company
-#: code:addons/purchase_sale_inter_company/models/purchase_order.py:0
+#: code:addons/purchase_sale_inter_company/models/purchase_order.py:171
+#: code:addons/purchase_sale_inter_company/models/sale_order.py:178
 #, python-format
 msgid "You can't cancel an order that is %s"
 msgstr ""
 
 #. module: purchase_sale_inter_company
-#: code:addons/purchase_sale_inter_company/models/purchase_order.py:0
+#: code:addons/purchase_sale_inter_company/models/sale_order.py:88
+#, python-format
+msgid "You cannot create PO from SO because product '%s' is not intercompany"
+msgstr ""
+
+#. module: purchase_sale_inter_company
+#: code:addons/purchase_sale_inter_company/models/purchase_order.py:55
 #, python-format
 msgid "You cannot create SO from PO because product '%s' is not intercompany"
 msgstr ""
 
 #. module: purchase_sale_inter_company
-#: code:addons/purchase_sale_inter_company/models/purchase_order.py:0
+#: code:addons/purchase_sale_inter_company/models/purchase_order.py:82
 #, python-format
 msgid ""
 "You cannot create SO from PO because sale price list currency is different "
 "than purchase price list currency."
 msgstr ""
-
-#~ msgid "Invoice"
-#~ msgstr "Rechnung"

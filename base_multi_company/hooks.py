@@ -1,12 +1,23 @@
 # Copyright 2015-2016 Pedro M. Baeza <pedro.baeza@tecnativa.com>
 # Copyright 2017 LasLabs Inc.
 # License LGPL-3 - See http://www.gnu.org/licenses/lgpl-3.0.html
-from odoo import SUPERUSER_ID, api
+
+from odoo import api, SUPERUSER_ID
+
 
 __all__ = [
-    "post_init_hook",
-    "uninstall_hook",
+    'create_company_assignment_view',
+    'post_init_hook',
+    'uninstall_hook',
 ]
+
+
+def create_company_assignment_view(cr):
+    cr.execute("""
+        CREATE OR REPLACE VIEW res_company_assignment
+            AS SELECT id, name, parent_id
+            FROM res_company;
+    """)
 
 
 def set_security_rule(env, rule_ref):
@@ -18,19 +29,17 @@ def set_security_rule(env, rule_ref):
     rule = env.ref(rule_ref)
     if not rule:  # safeguard if it's deleted
         return
-    rule.write(
-        {
-            "active": True,
-            "domain_force": (
-                "['|', ('no_company_ids', '=', True), ('company_ids', "
-                "'in', company_ids)]"
-            ),
-        }
-    )
+    rule.write({
+        'active': True,
+        'domain_force': (
+            "['|', ('company_ids', 'in', user.company_id.ids),"
+            " ('visible_for_all_companies', '=', True)]"
+        ),
+    })
 
 
 def post_init_hook(cr, rule_ref, model_name):
-    """Set the `domain_force` and default `company_ids` to `company_id`.
+    """ Set the `domain_force` and default `company_ids` to `company_id`.
 
     Args:
         cr (Cursor): Database cursor to use for operation.
@@ -44,24 +53,19 @@ def post_init_hook(cr, rule_ref, model_name):
         set_security_rule(env, rule_ref)
         # Copy company values
         model = env[model_name]
-        table_name = model._fields["company_ids"].relation
-        column1 = model._fields["company_ids"].column1
-        column2 = model._fields["company_ids"].column2
+        table_name = model._fields['company_ids'].relation
+        column1 = model._fields['company_ids'].column1
+        column2 = model._fields['company_ids'].column2
         SQL = """
-            INSERT INTO {}
-            ({}, {})
-            SELECT id, company_id FROM {} WHERE company_id IS NOT NULL
-        """.format(
-            table_name,
-            column1,
-            column2,
-            model._table,
-        )
+            INSERT INTO %s
+            (%s, %s)
+            SELECT id, company_id FROM %s WHERE company_id IS NOT NULL
+        """ % (table_name, column1, column2, model._table)
         env.cr.execute(SQL)
 
 
 def uninstall_hook(cr, rule_ref):
-    """Restore product rule to base value.
+    """ Restore product rule to base value.
 
     Args:
         cr (Cursor): Database cursor to use for operation.
@@ -72,12 +76,10 @@ def uninstall_hook(cr, rule_ref):
         env = api.Environment(cr, SUPERUSER_ID, {})
         # Change access rule
         rule = env.ref(rule_ref)
-        rule.write(
-            {
-                "active": False,
-                "domain_force": (
-                    " ['|', ('company_id', '=', user.company_id.id),"
-                    " ('company_id', '=', False)]"
-                ),
-            }
-        )
+        rule.write({
+            'active': False,
+            'domain_force': (
+                " ['|', ('company_id', '=', user.company_id.id),"
+                " ('company_id', '=', False)]"
+            ),
+        })
