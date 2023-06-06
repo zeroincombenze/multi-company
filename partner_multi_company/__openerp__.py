@@ -21,7 +21,7 @@
     "data": [
         "views/res_partner_view.xml",
     ],
-    "installable": True,
+    "installable": False,
     'post_init_hook': 'post_init_hook',
     'uninstall_hook': 'uninstall_hook',
 }
